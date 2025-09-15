@@ -1,0 +1,86 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "kunjan",
+      "password": "12345",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "testuser",
+      "password": "abcd",
+      "role": "user"
+    }
+  ],
+"jobs": [
+    {
+      "id": 1,
+      "title": "Frontend Developer",
+      "company": "Tech Solutions",
+      "location": "New York, NY",
+      "salary": "$80k - $100k",
+      "type": "Full-time",
+      "experienceLevel": "Mid-level",
+      "postedDate": "2025-09-10",
+      "skills": ["JavaScript", "React", "CSS"],
+      "description": "Work on new features for our main product using JavaScript and React. Collaborate with designers and backend developers to deliver high-quality UI."
+    },
+    {
+      "id": 2,
+      "title": "Backend Developer",
+      "company": "Innovatech",
+      "location": "San Francisco, CA",
+      "salary": "$90k - $120k",
+      "type": "Remote",
+      "experienceLevel": "Senior",
+      "postedDate": "2025-09-08",
+      "skills": ["Node.js", "Express", "MongoDB"],
+      "description": "Join our team to build scalable server-side applications using Node.js and Express. Ensure system performance, reliability, and security."
+    },
+    {
+      "id": 3,
+      "title": "UI/UX Designer",
+      "company": "Creative Agency",
+      "location": "Los Angeles, CA",
+      "salary": "$70k - $90k",
+      "type": "Internship",
+      "experienceLevel": "Fresher",
+      "postedDate": "2025-09-05",
+      "skills": ["Figma", "Adobe XD", "Prototyping"],
+      "description": "Design user-centric interfaces for web and mobile applications. Work closely with developers to ensure designs are implemented accurately."
+    },
+    {
+      "id": 4,
+      "title": "Data Scientist",
+      "company": "AI Labs",
+      "location": "Boston, MA",
+      "salary": "$110k - $140k",
+      "type": "Full-time",
+      "experienceLevel": "Senior",
+      "postedDate": "2025-09-12",
+      "skills": ["Python", "TensorFlow", "Machine Learning"],
+      "description": "Analyze large datasets to build predictive models. Collaborate with engineers to integrate machine learning solutions into products."
+    },
+    {
+      "id": 5,
+      "title": "Project Manager",
+      "company": "Global Corp",
+      "location": "Chicago, IL",
+      "salary": "$95k - $115k",
+      "type": "Contract",
+      "experienceLevel": "Manager",
+      "postedDate": "2025-09-01",
+      "skills": ["Agile", "Scrum", "Communication"],
+      "description": "Lead project teams to deliver software solutions on time and within budget. Facilitate agile ceremonies and stakeholder communication."
+    }
+  ],
+  "applications": [
+    {
+      "id": "1",
+      "jobId": 1,
+      "userId": 2,
+      "status": "applied"
+    }
+  ]
+}
