@@ -1,11 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 import PostJobForm from './PostJobsForm';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import Jobs from './pages/Jobs';
 import JobDetails from './pages/JobDetails';
-
 function App() {
   return (
   <>
