@@ -57,6 +57,7 @@ export default function Header() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/post-job" element={<PostJob />} />
+        <Route path="/Jobs" element={<Jobs />} />
     </Routes>
 
     </>
