@@ -27,6 +27,10 @@ export default function PostJobForm() {
         setError({...errors , ...error})
         return errors.length == 0;
     }
+    function handleValue(name, inputValue){
+        console.log(typeof(value[name]))
+        setValue({...value,[name] : inputValue})
+    }
 function handleSubmit(e) {
     e.preventDefault();
 
@@ -96,7 +100,7 @@ useEffect(()=>{
             value={value.title}
             onBlur={(e) => handleBlur(e, "title", /^[A-Za-z][A-Za-z\s'-]{1,}$/)}
             onChange={(e) => {
-              setValue({ ...value, title: e.target.value });
+                handleValue("title",e.target.value);
               setError({ ...errors, title: "" });
             }}
             className="form-control"
@@ -114,7 +118,7 @@ useEffect(()=>{
             value={value.company}
             onBlur={(e) => handleBlur(e, "company", /^[A-Za-z0-9&\s'-]{2,}$/)}
             onChange={(e) => {
-              setValue({ ...value, company: e.target.value });
+            handleValue("company",e.target.value);
               setError({ ...errors, company: "" });
             }}
             className="form-control"
@@ -132,7 +136,7 @@ useEffect(()=>{
             value={value.location}
             onBlur={(e) => handleBlur(e, "location", /^[A-Za-z\s,.-]+$/)}
             onChange={(e) => {
-              setValue({ ...value, location: e.target.value });
+              handleValue("location",e.target.value);
               setError({ ...errors, location: "" });
             }}
             className="form-control"
@@ -150,7 +154,7 @@ useEffect(()=>{
             value={value.salary}
             onBlur={(e) => handleBlur(e, "salary",/^(?:[₹$€]?\s?\d{1,3}(?:,\d{3})*|\d+)(?:\.\d{1,2})?\s?[₹$€]?$/)}
             onChange={(e) => {
-              setValue({ ...value, salary: e.target.value });
+            handleValue("salary",e.target.value);
               setError({ ...errors, salary: "" });
             }}
             className="form-control"
@@ -168,7 +172,7 @@ useEffect(()=>{
             value={value.type}
             onBlur={(e) => handleBlur(e, "type", /^[A-Za-z\s]+$/)}
             onChange={(e) => {
-              setValue({ ...value, type: e.target.value });
+            handleValue("type",e.target.value);
               setError({ ...errors, type: "" });
             }}
             className="form-control"
@@ -185,7 +189,7 @@ useEffect(()=>{
             value={value.description}
             onBlur={(e) => handleBlur(e, "description", /^(?=\s*\S).*$/)}
             onChange={(e) => {
-              setValue({ ...value, description: e.target.value });
+            handleValue("description",e.target.value);
               setError({ ...errors, description: "" });
             }}
             className="form-control"
@@ -204,7 +208,7 @@ useEffect(()=>{
             value={value.skills}
             onBlur={(e) => handleBlur(e, "skills", /^[A-Za-z\s,]+$/)}
             onChange={(e) => {
-              setValue({ ...value, skills: e.target.value });
+            handleValue("skills",e.target.value);
               setError({ ...errors, skills: "" });
             }}
             className="form-control"
@@ -222,7 +226,7 @@ useEffect(()=>{
             value={value.workMode}
             onBlur={(e) => handleBlur(e, "workMode", /^[A-Za-z\s]+$/)}
             onChange={(e) => {
-              setValue({ ...value, workMode: e.target.value });
+            handleValue("workMode",e.target.value);
               setError({ ...errors, workMode: "" });
             }}
             className="form-control"
@@ -240,7 +244,7 @@ useEffect(()=>{
             value={value.experienceLevel}
             onBlur={(e) => handleBlur(e, "experienceLevel", /^[A-Za-z\s]+$/)}
             onChange={(e) => {
-              setValue({ ...value, experienceLevel: e.target.value });
+            handleValue("experienceLevel",e.target.value);
               setError({ ...errors, experienceLevel: "" });
             }}
             className="form-control"
