@@ -30,7 +30,6 @@ export default function PostJobForm() {
     function handleValue(name, inputValue){
         setValue({...value,[name] : inputValue});
     }
-
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -92,10 +91,10 @@ export default function PostJobForm() {
 
     return (
         <>
-            <form id="postJobForm" onSubmit={handleSubmit} className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-                <div className='form-wrapper w-auto flex flex-col items-center'>
+            <form id="postJobForm" onSubmit={handleSubmit} className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center'>
+                <div className='form-wrapper w-auto flex flex-wrap justify-between gap-x-16'>
                 {/* Job Title */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg  mb-4">
                     <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="title">Job Title</label>
                     <div className="relative w-full">
                         <input
@@ -115,7 +114,7 @@ export default function PostJobForm() {
                 </div>
 
                 {/* Company */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg  mb-4">
                     <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="company">Company</label>
                     <div className="relative w-full">
                         <input
@@ -135,7 +134,7 @@ export default function PostJobForm() {
                 </div>
 
                 {/* Location */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg  mb-4">
                     <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="location">Location</label>
                     <div className="relative w-full">
                         <input
@@ -155,7 +154,7 @@ export default function PostJobForm() {
                 </div>
 
                 {/* Salary */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg  mb-4">
                     <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="salary">Salary</label>
                     <div className="relative w-full">
                         <input
@@ -175,7 +174,7 @@ export default function PostJobForm() {
                 </div>
 
                 {/* Type */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg  mb-4">
                     <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="type">Type</label>
                     <div className="relative w-full">
                         <input
@@ -194,28 +193,8 @@ export default function PostJobForm() {
                     {errors.type && <p className="text-xs font-medium text-red-500">{errors.type}</p>}
                 </div>
 
-                {/* Description */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
-                    <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="description">Description</label>
-                    <div className="relative w-full">
-                        <textarea
-                            value={value.description}
-                            onBlur={(e) => handleBlur(e, "description", /^(?=\s*\S).*$/)}
-                            onChange={(e) => {
-                                handleValue("description", e.target.value);
-                                setError({ ...errors, description: "" });
-                            }}
-                            className="w-full rounded-lg border border-slate-200 px-3 text-sm font-medium placeholder-slate-400 outline-none transition-all duration-300 ease-in-out disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400 disabled:placeholder-slate-400 focus:border-blue-600 py-2 mb-0.5"
-                            id="description"
-                            rows="3"
-                            placeholder="Enter description"
-                        ></textarea>
-                    </div>
-                    {errors.description && <p className="text-xs font-medium text-red-500">{errors.description}</p>}
-                </div>
-
                 {/* Skills */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg  mb-4">
                     <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="skills">Skills</label>
                     <div className="relative w-full">
                         <input
@@ -235,7 +214,7 @@ export default function PostJobForm() {
                 </div>
 
                 {/* Work Mode */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg  mb-4">
                     <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="workMode">Work Mode</label>
                     <div className="relative w-full">
                         <input
@@ -255,7 +234,7 @@ export default function PostJobForm() {
                 </div>
 
                 {/* Experience Level */}
-                <div className="flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg mb-4">
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 max-w-lg  mb-4">
                     <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="experienceLevel">Experience Level</label>
                     <div className="relative w-full">
                         <input
@@ -273,11 +252,29 @@ export default function PostJobForm() {
                     </div>
                     {errors.experienceLevel && <p className="text-xs font-medium text-red-500">{errors.experienceLevel}</p>}
                 </div>
-
-                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-8">
+                                {/* Description */}
+                <div className="inline-flex w-full flex-col items-start gap-1.5 stroke-black transition-colors duration-300 ease-in-out focus-within:stroke-blue-700 w-full mb-4">
+                    <label className="font-medium transition-colors duration-300 ease-in-out peer-disabled:opacity-70 text-xs whitespace-nowrap text-black" htmlFor="description">Description</label>
+                    <div className="relative w-full">
+                        <textarea
+                            value={value.description}
+                            onBlur={(e) => handleBlur(e, "description", /^(?=\s*\S).*$/)}
+                            onChange={(e) => {
+                                handleValue("description", e.target.value);
+                                setError({ ...errors, description: "" });
+                            }}
+                            className="w-full rounded-lg border border-slate-200 px-3 text-sm font-medium placeholder-slate-400 outline-none transition-all duration-300 ease-in-out disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400 disabled:placeholder-slate-400 focus:border-blue-600 py-2 mb-0.5"
+                            id="description"
+                            rows="3"
+                            placeholder="Enter description"
+                        ></textarea>
+                    </div>
+                    {errors.description && <p className="text-xs font-medium text-red-500">{errors.description}</p>}
+                </div>
+                </div>
+                  <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-8">
                     Submit
                 </button>
-                </div>
             </form>
         </>
     );
