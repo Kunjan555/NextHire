@@ -89,7 +89,7 @@ export default function PostJobForm() {
           type: "",
           description: "",
           skills: [],
-          workMode: "",
+          workMode: [],
           experienceLevel: "",
         });
 
