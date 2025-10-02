@@ -14,7 +14,7 @@ import PostJob from "../pages/PostJob";
 import { Search, User, Menu, X } from 'lucide-react';
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const [open, setOpen] = useState(false);
     const routes = [
         { id: 'home', label: 'Home', path: '/' },
         { id: 'about', label: 'About', path: '/about' },
@@ -62,11 +62,32 @@ export default function Header() {
                         </div>
 
                         {/* User Profile - Desktop */}
-                        <div className="hidden md:flex items-center">
-                            <button className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                        <div className="hidden md:flex items-center relative">
+                            <button onClick={() => setOpen(!open)} className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
                                 <User className="h-5 w-5" />
                                 <span className="font-medium">Profile</span>
                             </button>
+                            {open && (
+                                <div className="absolute right-0 top-full mt-2 w-40 bg-white shadow-lg rounded-lg border">
+                                    <ul className="py-2 text-sm text-gray-700">
+                                        <li>
+                                            <a href="#" className="block px-4 py-2 hover:bg-gray-100">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" className="block px-4 py-2 hover:bg-gray-100">Settings</a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="#"
+                                                className="block px-4 py-2 hover:bg-gray-100"
+                                            >
+                                                Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+
                         </div>
 
                         {/* Mobile menu button */}
@@ -116,7 +137,7 @@ export default function Header() {
                     )}
                 </div>
             </header>
-        
+
             <Routes>
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/dashboard-company" element={<DashboardCompany />} />
