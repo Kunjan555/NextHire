@@ -1,5 +1,8 @@
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { app } from "../firebase";
 import React, { useEffect, useState } from 'react';
 
+const db = getFirestore(app);
 export default function PostJobForm() {
 
     const [value, setValue] = useState({
@@ -9,8 +12,8 @@ export default function PostJobForm() {
         salary: "",
         type: "",
         description: "",
-        skills: "",
-        workMode: "",
+        skills: [],
+        workMode: [],
         experienceLevel: "",
     });
 
@@ -28,7 +31,13 @@ export default function PostJobForm() {
     }
 
     function handleValue(name, inputValue){
-        setValue({...value,[name] : inputValue});
+        if(Array.isArray(value[name])){
+            let split = inputValue.split(",");
+            console.log(split)
+            setValue({...value, [name]:split})
+        }else{
+            setValue({...value,[name] : inputValue});
+        }
     }
     function handleSubmit(e) {
         e.preventDefault();
@@ -53,8 +62,8 @@ export default function PostJobForm() {
         if (!value.description.trim()) {
           newErrors.description = "Description is required";
         }
-        if (!/^[A-Za-z\s,]+$/.test(value.skills)) {
-          newErrors.skills = "Enter valid skills (comma separated)";
+        if (!value.skills.every(skill => /^[A-Za-z\s]+$/.test(skill))) {
+              newErrors.skills = "Enter valid skills (comma separated)";
         }
         if (!/^[A-Za-z\s]+$/.test(value.workMode)) {
           newErrors.workMode = "Enter valid work mode";
@@ -69,6 +78,8 @@ export default function PostJobForm() {
         }
 
         console.log("Form submitted:", value);
+        const jobsCollection = collection(db, "Jobs"); 
+        const docRef =  addDoc(jobsCollection, value);
 
         setValue({
           title: "",
@@ -77,7 +88,7 @@ export default function PostJobForm() {
           salary: "",
           type: "",
           description: "",
-          skills: "",
+          skills: [],
           workMode: "",
           experienceLevel: "",
         });
@@ -87,7 +98,8 @@ export default function PostJobForm() {
 
     useEffect(()=>{
         console.log(errors);
-    },[errors]);
+        console.log(value.workMode)
+    },[errors],[value]);
 
     return (
         <>
@@ -199,7 +211,7 @@ export default function PostJobForm() {
                     <div className="relative w-full">
                         <input
                             type="text"
-                            value={value.skills}
+                            // value={value.skills.join(",")}
                             onBlur={(e) => handleBlur(e, "skills", /^[A-Za-z\s,]+$/)}
                             onChange={(e) => {
                                 handleValue("skills", e.target.value);
