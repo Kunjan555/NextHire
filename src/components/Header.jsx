@@ -11,7 +11,7 @@ import JobDetails from '../pages/JobDetails';
 import Login from "../pages/Login";
 import Signup from '../pages/Signup';
 import PostJob from "../pages/PostJob";
-import { Search, User, Menu, X } from 'lucide-react';
+import { Search, User, Menu, X} from 'lucide-react';
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [open, setOpen] = useState(false);
@@ -38,8 +38,7 @@ export default function Header() {
                                     <li key={link.id} className='inline-block'>
                                         <Link
                                             to={link.path}
-                                            className='inline-block px-6 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-blue-600 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300'
-                                        >
+                                            className='inline-block px-6 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-blue-600 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300'>
                                             {link.label}
                                         </Link>
                                     </li>
@@ -61,6 +60,20 @@ export default function Header() {
                             </div>
                         </div>
 
+                        {/* Login & Signup Buttons - Desktop */}
+                        <div className="hidden md:flex items-center space-x-3">
+                            <Link to="/login">
+                                <button className="px-4 py-2 text-blue-600 font-medium hover:bg-blue-50 rounded-lg transition-colors duration-200">
+                                    Login
+                                </button>
+                            </Link>
+                            <Link to="/signup">
+                                <button className="px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 rounded-lg transition-colors duration-200">
+                                    Sign Up
+                                </button>
+                            </Link>
+                        </div>
+               
                         {/* User Profile - Desktop */}
                         <div className="hidden md:flex items-center relative">
                             <button onClick={() => setOpen(!open)} className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
@@ -77,12 +90,7 @@ export default function Header() {
                                             <a href="#" className="block px-4 py-2 hover:bg-gray-100">Settings</a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="#"
-                                                className="block px-4 py-2 hover:bg-gray-100"
-                                            >
-                                                Logout
-                                            </a>
+                                            <a href="#" className="block px-4 py-2 hover:bg-gray-100">Logout</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -131,6 +139,20 @@ export default function Header() {
                                             </li>
                                         )
                                     })}
+                                    
+                                    {/* Mobile Login & Signup Buttons */}
+                                    <div className="space-y-2 pt-2">
+                                        <Link to="/login">
+                                            <button className="w-full px-3 py-2 text-blue-600 font-medium hover:bg-blue-50 rounded-lg transition-colors duration-200 text-left">
+                                                Login
+                                            </button>
+                                        </Link>
+                                        <Link to="/signup">
+                                            <button className="w-full px-3 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 rounded-lg transition-colors duration-200">
+                                                Sign Up
+                                            </button>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -153,4 +175,3 @@ export default function Header() {
         </>
     )
 }
-
