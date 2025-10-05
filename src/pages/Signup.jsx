@@ -1,5 +1,7 @@
+import { app } from "../firebase";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 import React, { useState } from "react";
-import { auth } from "../firebase";
+const db = getFirestore(app);
 function Signup() {
   const [form, setForm] = useState({
     name: "",
@@ -50,6 +52,8 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      const profileCollection = collection(db,"profiles");
+      const postProfile = addDoc(profileCollection,form);
       console.log("Signup Data:", form);
     }
   };
