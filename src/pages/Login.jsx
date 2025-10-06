@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
-import { auth } from "../firebase";
+import React, { useState } from 'react';
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+
+const db = getFirestore();
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -7,49 +10,68 @@ export default function Login() {
 
   const validate = () => {
     let tempErrors = {};
-    if(!email){
+    if (!email) {
       tempErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)){
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
       tempErrors.email = "Email is not valid";
     }
-    if(!password){
+    if (!password) {
       tempErrors.password = "Password is required";
-    }else if(password.length<6){
+    } else if (password.length < 6) {
       tempErrors.password = "Password must be at least 6 characters";
     }
     setError(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
 
-    return Object.keys(tempErrors).length= 0;
-  }
-  const handleSubmit = (e) => {
+  const checkUsernameExists = async (email) => {
+    const q = query(collection(db, "profiles"), where("email", "==", email));
+    const snapshot = await getDocs(q);
+    return !snapshot.empty;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   if(validate()){
+    if (validate()) {
+      const exists = await checkUsernameExists(email);
+      if (!exists) {
+        setError({ email: "No account found with this email" });
+        return;
+      }
       console.log("Email", email, "Password", password)
-   }
-   
-  }
+      
+      console.log("Email exists, you can proceed with sign-in");
+    }
+  };
+
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>
       <div className='w-full max-w-md bg-white rounded-2xl shadow-lg p-8'>
-        <h2 className='text-2xl font-bolc text-center text-gray-800 mb-6'>Login</h2>
+        <h2 className='text-2xl font-bold text-center text-gray-800 mb-6'>Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className='mb-4'>
             <label className='block text-gray-700 font-medium mb-1'>Email</label>
-            <input type='email' value={email} onChange={(e)=> setEmail(e.target.value)} placeholder='Enter your email'  className={`w-full px-4 py-2 border rounded-xl focus:outline-none 
+            <input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder='Enter your email'
+              className={`w-full px-4 py-2 border rounded-xl focus:outline-none 
                 ${error.email ? "border-red-500 focus:ring-2 focus:ring-red-400" : "border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
-           />
-            {error.email && (
-              <p className="text-red-500 text-sm mt-1">{error.email}</p>
-            )}
+            />
+            {error.email && <p className="text-red-500 text-sm mt-1">{error.email}</p>}
           </div>
           <div className='mb-8'>
             <label className='block text-gray-700 font-medium mb-1'>Password</label>
-            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Enter your password' className={`w-full px-4 py-2 border rounded-xl focus:outline-none 
+            <input
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='Enter your password'
+              className={`w-full px-4 py-2 border rounded-xl focus:outline-none 
                 ${error.password ? "border-red-500 focus:ring-2 focus:ring-red-400" : "border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
-           />
-            {error.password && (
-              <p className="text-red-500 text-sm mt-1">{error.password}</p>
-            )}
+            />
+            {error.password && <p className="text-red-500 text-sm mt-1">{error.password}</p>}
           </div>
           <button type='submit' className='w-full mb-4 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition duration-200'>Login</button>
           <p className='text-center'>Don’t have an account?{" "}
@@ -58,5 +80,5 @@ export default function Login() {
         </form>
       </div>
     </div>
-  )
+  );
 }
