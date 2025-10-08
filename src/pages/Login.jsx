@@ -24,11 +24,30 @@ export default function Login() {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const checkUsernameExists = async (email) => {
-    const q = query(collection(db, "profiles"), where("email", "==", email));
-    const snapshot = await getDocs(q);
-    return !snapshot.empty;
-  };
+ const checkUsernameExists = async (email) => {
+  // Make sure email is trimmed & lowercase if stored that way
+  const cleanEmail = email.trim().toLowerCase();
+
+  const q = query(
+    collection(db, "profiles"),
+    where("email", "==", cleanEmail)
+  );
+
+  const snapshot = await getDocs(q);
+
+  if (!snapshot.empty) {
+    // snapshot only contains exact matches from Firestore
+    const doc = snapshot.docs[0]; // safe if emails are unique
+    const userData = { id: doc.id, ...doc.data() };
+    console.log("Matching user:", userData);
+
+    return userData;
+  } else {
+    console.log("No matching user found");
+    return null;
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,9 +57,15 @@ export default function Login() {
         setError({ email: "No account found with this email" });
         return;
       }
+      console.log("exists",exists)
       console.log("Email", email, "Password", password)
-      
-      console.log("Email exists, you can proceed with sign-in");
+      if(exists.password === password){
+        console.log("Login successful");
+        // Perform login logic here
+      }
+      else{
+        setError({ password: "Incorrect password" });
+      }
     }
   };
 
