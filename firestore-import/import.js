@@ -14,7 +14,8 @@ async function importData() {
   const collectionRef = db.collection('Jobs');
 
   data.forEach((item) => {
-    const docRef = collectionRef.doc(); // auto-generated ID
+    const customId = String(item.id);
+    const docRef = collectionRef.doc(customId); // auto-generated ID
     batch.set(docRef, item);
   });
 

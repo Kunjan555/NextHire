@@ -1,5 +1,5 @@
 import { app } from "../firebase";
-import { addDoc, collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { doc,setDoc,addDoc, collection, getDocs, getFirestore, query, where } from "firebase/firestore";
 import React, { useState } from "react";
 const db = getFirestore(app);
 function Signup() {
@@ -7,6 +7,7 @@ function Signup() {
     name: "",
     email: "",
     mobile: "",
+    userType: "",
     password: "",
     confirmPassword: "",
   });
@@ -31,6 +32,10 @@ function Signup() {
       tempErrors.mobile = "Mobile number is required";
     } else if (!/^[0-9]{10}$/.test(form.mobile)) {
       tempErrors.mobile = "Enter a valid 10-digit mobile number";
+    }
+
+    if (!form.userType) {
+      tempErrors.userType = "User type is required";
     }
 
     if (!form.password) {
@@ -59,19 +64,22 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-     const exists = await checkUsernameExists(form.email);
+      const exists = await checkUsernameExists(form.email);
       if (!exists) {
-       console.log("Email exists, you can proceed with sign-in");
+        alert("Email already exists. Please login or use a different email.");
         return;
       }
-      else{
-      const profileCollection = collection(db,"profiles");
-      const postProfile = addDoc(profileCollection,form);
-      console.log("Signup Data:", form);
-      }
-      
+
+      const { confirmPassword, ...profileData } = form; 
+ const userDocRef = doc(db, "profiles", profileData.name);
+
+// Save the document under profiles/{name}
+await setDoc(userDocRef, profileData);
+      console.log("Signup Data:", profileData);
+      alert("Signup successful!");
     }
   };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -122,6 +130,23 @@ function Signup() {
                 ${errors.mobile ? "border-red-500 focus:ring-2 focus:ring-red-400" : "border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
             />
             {errors.mobile && <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>}
+          </div>
+
+          {/* User Type */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">User Type</label>
+            <select
+              name="userType"
+              value={form.userType}
+              onChange={handleChange}
+              className={`w-full px-4 py-2 border rounded-xl focus:outline-none 
+                ${errors.userType ? "border-red-500 focus:ring-2 focus:ring-red-400" : "border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+            >
+              <option value="">Select User Type</option>
+              <option value="jobseeker">Job Seeker</option>
+              <option value="recruiter">Recruiter</option>
+            </select>
+            {errors.userType && <p className="text-red-500 text-sm mt-1">{errors.userType}</p>}
           </div>
 
           {/* Password */}

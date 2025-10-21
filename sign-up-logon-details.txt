@@ -1,0 +1,144 @@
+Nice 🔥 — setting up a clean and secure **Signup / Login system** is one of the most important parts of a job portal.
+Here’s a **complete, professional field structure** I recommend — divided clearly into:
+
+* ✅ **Frontend fields** → what users fill in or see
+* 🔒 **Backend-only fields** → what you store or generate internally (not shown or editable by user)
+
+---
+
+## 📝 **1. Signup Form (Frontend)**
+
+| Field                           | Type           | Required                  | Notes                                        |
+| ------------------------------- | -------------- | ------------------------- | -------------------------------------------- |
+| **Full Name**                   | Text           | ✅                         | For profile & communication                  |
+| **Email**                       | Email          | ✅                         | Used for login & verification                |
+| **Password**                    | Password       | ✅                         | Store securely (hashed)                      |
+| **Confirm Password**            | Password       | ✅                         | Frontend validation only                     |
+| **User Type**                   | Dropdown       | ✅                         | `Job Seeker` / `Employer` (or `Admin` later) |
+| **Phone Number**                | Text           | Optional                  | With country code if possible                |
+| **Location / City**             | Text           | Optional                  | Useful for job recommendations               |
+| **Resume (CV)**                 | File (PDF/DOC) | Optional (Job seekers)    | Upload stored in Cloud Storage               |
+| **Company Name**                | Text           | Optional (Employers only) | Shown if user selects Employer               |
+| **Terms & Conditions Checkbox** | Checkbox       | ✅                         | Must agree to proceed                        |
+
+---
+
+## 🛡 **2. Backend Fields (Stored in DB)**
+
+| Field                | Type        | Description                                         |
+| -------------------- | ----------- | --------------------------------------------------- |
+| **uid**              | String      | 🔒 Unique user ID (Firebase Auth or custom)         |
+| **email**            | String      | 🔒 Primary login ID                                 |
+| **passwordHash**     | String      | 🔒 Store **hashed** password only (never plaintext) |
+| **role**             | Enum/String | `jobSeeker`, `employer`, `admin`                    |
+| **createdAt**        | Timestamp   | Auto-generated                                      |
+| **updatedAt**        | Timestamp   | Auto-generated                                      |
+| **emailVerified**    | Boolean     | Useful for activation                               |
+| **status**           | Enum        | `active`, `pending`, `suspended` — for moderation   |
+| **lastLogin**        | Timestamp   | For analytics                                       |
+| **profileCompleted** | Boolean     | Helps show onboarding steps                         |
+| **resumeURL**        | String      | File storage link (if uploaded)                     |
+| **companyId**        | String      | For employers — if linked to multiple job postings  |
+| **loginProvider**    | Enum        | `email`, `google`, `linkedin`, etc.                 |
+
+---
+
+## 🧠 **3. Login Form (Frontend)**
+
+Very minimal — keep it clean 👇
+
+| Field                | Type     | Required | Notes               |
+| -------------------- | -------- | -------- | ------------------- |
+| **Email / Username** | Text     | ✅        | Email is standard   |
+| **Password**         | Password | ✅        |                     |
+| **Remember me**      | Checkbox | Optional | Keep session alive  |
+| **Forgot password?** | Link     | Optional | Triggers reset flow |
+
+> 🔐 For social login (Google / LinkedIn), you can add buttons — but this depends on your auth provider.
+
+---
+
+## 🧱 **4. Optional but Recommended Fields**
+
+For Job Seekers:
+
+* 🎯 **Job Title / Current Role** → e.g., "Frontend Developer"
+* 🏢 **Experience Level** → Junior / Mid / Senior
+* 💼 **Skills** → Array of strings (e.g., `["React", "Node.js"]`)
+* 📅 **Availability** → Immediate / 1 month / etc.
+
+For Employers:
+
+* 👤 **Contact Person Name**
+* 🌐 **Company Website**
+* 🏢 **Company Industry**
+* 📝 **Company Description**
+
+For Both:
+
+* 📸 **Profile Picture / Logo**
+* 📍 **Country / State / ZIP**
+
+---
+
+## 🧭 **5. Where to store**
+
+### 📌 **Authentication (Email/Password)**
+
+Use **Firebase Authentication** or custom backend auth for:
+
+* Email
+* Password (hashed)
+* UID
+* Verification
+
+### 📌 **User Profile Data**
+
+Store in **Firestore / Database**, under a `users` collection:
+
+```
+users
+ ├── uid12345
+ │    ├── name: "Kunjan Joshi"
+ │    ├── email: "kunjan@example.com"
+ │    ├── role: "jobSeeker"
+ │    ├── resumeURL: "https://..."
+ │    ├── createdAt: ...
+ │    └── ...
+```
+
+---
+
+## 🛠 **6. Minimal Example JSON (Backend)**
+
+```json
+{
+  "uid": "u12345",
+  "name": "Kunjan Joshi",
+  "email": "kunjan@example.com",
+  "role": "jobSeeker",
+  "location": "Mumbai, India",
+  "phone": "+91-9876543210",
+  "skills": ["JavaScript", "React", "Node.js"],
+  "resumeURL": "https://storage.example.com/resumes/u12345.pdf",
+  "emailVerified": true,
+  "createdAt": "2025-10-18T12:00:00Z",
+  "updatedAt": "2025-10-18T12:00:00Z",
+  "status": "active",
+  "profileCompleted": true,
+  "loginProvider": "email"
+}
+```
+
+---
+
+### 🚀 **Pro Tips**
+
+* ✅ Use **server-side validation** for all signup fields (especially passwords).
+* 🔒 Never store passwords as plain text. Always hash (e.g., bcrypt).
+* 📨 Enable email verification for better security.
+* 🌍 For job seekers, keep **profile completion steps** guided (e.g., 60% complete → upload resume).
+* 🏢 For employers, you can add company verification later.
+
+---
+

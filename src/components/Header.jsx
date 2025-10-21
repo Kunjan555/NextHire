@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Routes, Route, Link } from "react-router-dom";
 import Home from '../pages/Home';
 import About from '../pages/About';
@@ -12,6 +12,7 @@ import Login from "../pages/Login";
 import Signup from '../pages/Signup';
 import PostJob from "../pages/PostJob";
 import { Search, User, Menu, X} from 'lucide-react';
+import AccountProvider, { accountContext } from './AccountProvider';
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [open, setOpen] = useState(false);
@@ -20,6 +21,8 @@ export default function Header() {
         { id: 'about', label: 'About', path: '/about' },
         { id: 'jobs', label: 'Jobs', path: '/Jobs' }
     ];
+    const { account, setAccount } = useContext(accountContext);
+
     return (
         <>
             <header className="bg-white shadow-md sticky top-0 z-50">
@@ -160,7 +163,9 @@ export default function Header() {
                 </div>
             </header>
 
+        <AccountProvider>
             <Routes>
+                <Route path="/" element={<Home />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/dashboard-company" element={<DashboardCompany />} />
                 <Route path="/dashboard-user" element={<DashboardUser />} />
@@ -171,7 +176,7 @@ export default function Header() {
                 <Route path="/post-job" element={<PostJob />} />
                 <Route path="/Jobs" element={<Jobs />} />
             </Routes>
-
+</AccountProvider>
         </>
     )
 }

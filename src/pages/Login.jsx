@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import React, { useContext, useState } from 'react';
+import Cookies from "js-cookie";
 
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import AccountProvider, { accountContext } from '../components/AccountProvider';
 const db = getFirestore();
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
-
+const { account, setAccount } = useContext(accountContext);
   const validate = () => {
     let tempErrors = {};
     if (!email) {
@@ -61,7 +63,11 @@ export default function Login() {
       console.log("Email", email, "Password", password)
       if(exists.password === password){
         console.log("Login successful");
-        // Perform login logic here
+        alert("Login successful!");
+          const { password: _, ...accountInfo } = exists;
+        setAccount(accountInfo);
+          Cookies.set("account", JSON.stringify(accountInfo), { expires: 7 });
+
       }
       else{
         setError({ password: "Incorrect password" });
