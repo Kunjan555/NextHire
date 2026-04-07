@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DIRECT_URL")
 }
 
 model User {
@@ -12,7 +12,7 @@ model User {
   name       String?
   email      String   @unique
   password   String
-  phone      String?
+  phone      String?  @unique
   role       String   @default("candidate")
   isVerified Boolean  @default(false)
   createdAt  DateTime @default(now())
