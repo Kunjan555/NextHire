@@ -15,6 +15,22 @@ export declare class AuthController {
     }>;
     login(dto: LoginDto): Promise<{
         message: string;
+        userInfo: {
+            name: string | null;
+            email: string;
+            password: string;
+            phone: string | null;
+            role: string;
+            id: number;
+            isVerified: boolean;
+            createdAt: Date;
+            updatedAt: Date;
+            refreshToken: string | null;
+        };
+        access_token: string;
+        refresh_token: string;
+    }>;
+    refresh(token: string): Promise<{
         access_token: string;
     }>;
 }

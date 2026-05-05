@@ -105,14 +105,58 @@ let AuthService = class AuthService {
         if (!isMatch) {
             throw new common_2.UnauthorizedException('Invalid credentials');
         }
-        const token = this.jwtService.sign({
+        const access_token = this.jwtService.sign({
             userId: user.id,
             email: user.email,
-        });
-        return {
-            message: 'Login successful',
-            access_token: token,
-        };
+        }, { expiresIn: '30m' });
+        const refresh_token = this.jwtService.sign({
+            userId: user.id,
+            email: user.email,
+        }, { expiresIn: '7d' });
+        try {
+            const hashedRefreshToken = await bcrypt.hash(refresh_token, 10);
+            await this.prisma.user.update({
+                where: { id: user.id },
+                data: { refreshToken: hashedRefreshToken },
+            });
+            return {
+                message: 'Login successful',
+                userInfo: user,
+                access_token: access_token,
+                refresh_token: refresh_token,
+            };
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Failed to save refresh token');
+        }
+    }
+    async refreshToken(refreshToken) {
+        try {
+            if (!refreshToken) {
+                throw new common_2.UnauthorizedException('No refresh token provided');
+            }
+            const decoded = this.jwtService.verify(refreshToken);
+            const user = await this.prisma.user.findUnique({
+                where: { id: decoded.userId },
+            });
+            if (!user || !user.refreshToken) {
+                throw new common_2.UnauthorizedException('Access denied');
+            }
+            const isMatch = await bcrypt.compare(refreshToken, user.refreshToken);
+            if (!isMatch) {
+                throw new common_2.UnauthorizedException('Invalid refresh token');
+            }
+            const newAccessToken = this.jwtService.sign({
+                userId: user.id,
+                email: user.email,
+            }, { expiresIn: '30m' });
+            return {
+                access_token: newAccessToken,
+            };
+        }
+        catch (error) {
+            throw new common_2.UnauthorizedException('Invalid or expired refresh token');
+        }
     }
 };
 exports.AuthService = AuthService;
